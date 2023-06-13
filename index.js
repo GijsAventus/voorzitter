@@ -11,9 +11,12 @@ const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const client = new Client({
     intents:[
         GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent
     ]
 });
+
+console.log('Updating slash commands...');
 
 const commands = [];
 client.commands = new Collection();
@@ -55,13 +58,5 @@ client.on('interactionCreate', async interaction => {
         await interaction.reply({content:"error :frowning2:"});
     }
 })
-
-client.on('messageCreate', (message) => {
-    console.log('test')
-    if(message.content.includes('e')) {
-        console.log("reply")
-        message.reply("E");
-    }
-});
 
 client.login(process.env.TOKEN);
