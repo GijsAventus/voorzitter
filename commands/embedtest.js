@@ -3,16 +3,19 @@ const { SlashCommandBuilder, EmbedBuilder } = require('@discordjs/builders');
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('embedtest')
-    .setDescription('embed test cmd')
+    .setDescription('Testing for embeds')
     ,
     async execute(interaction)
     {
-        
-        const embed = new EmbedBuilder()
+        const embedTest = new EmbedBuilder()
         .setTitle('Test Embed')
-        .setColor(0x0099FF)
-        .setDescription('Mooie embed');
-
-        interaction.reply({ embeds: [embed] });
+        .setDescription('Voor embed testing zooi')
+        .addFields(
+            {name:'Test field 1', value:'description 1', inline: true},
+            {name:'Test field 2', value:'description 2', inline: true},
+        )
+        .setColor(0x89B0AE);
+        interaction.reply({embeds: [embedTest]});
     }
 };
+

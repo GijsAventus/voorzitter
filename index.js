@@ -8,6 +8,9 @@ const { isContextMenuApplicationCommandInteraction } = require('discord-api-type
 const { Routes } = require('discord-api-types/v9');
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 
+const pollButtonsInteraction = require('./events/buttons/pollbuttons.js');
+
+
 const client = new Client({
     intents:[
         GatewayIntentBits.Guilds,
@@ -45,6 +48,7 @@ client.on('ready', ()=> {
 });
 
 client.on('interactionCreate', async interaction => {
+    pollButtonsInteraction.execute(interaction);
     if(!interaction.isCommand()) return;
 
     const command = client.commands.get(interaction.commandName);
