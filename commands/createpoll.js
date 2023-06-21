@@ -7,6 +7,8 @@ const {
     ButtonBuilder, 
     ButtonStyle } = require('discord.js');
 
+const ms = require('ms');
+
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('createpoll')
@@ -18,6 +20,11 @@ module.exports = {
         .setDescription('question for the poll')
         .setRequired(true)
         )
+    .addStringOption(option => 
+        option.setName('duration')
+        .setDescription('Specify a time, example: 12h, 3d, 10m')
+        .setRequired(true)
+        )
     ,
     
     /**
@@ -27,16 +34,21 @@ module.exports = {
     async execute(interaction)
     {
         const pollQuestion = interaction.options.getString('question');
-        
+        const duration = interaction.options.getString('duration');
+
+        const endTime = Math.floor(Date.now() / 1000) + Math.floor(ms(duration)/1000);
+
         const pollEmbed = new EmbedBuilder()
-        .setTitle('titel')
+        .setTitle('Poll:')
         .setDescription(pollQuestion)
         .addFields(
             {name:'Yes', value:'0', inline:true},
-            {name:'No', value:'0', inline:true}
+            {name:'No', value:'0', inline:true},
+            {name:'Ends in:', value:`<t:${endTime}:R>`, inline:false},
+            {name:'Ends at:', value:`<t:${endTime}:f>`, inline:false},
         )
         .setColor(0xAA4444);
-
+        
         const replyObject = await interaction.reply({embeds:[pollEmbed], fetchReply:true})
 
         const pollButtons = new ActionRowBuilder()
@@ -46,6 +58,6 @@ module.exports = {
         )
         
         interaction.editReply({components:[pollButtons]})
-
+        
     }
 };

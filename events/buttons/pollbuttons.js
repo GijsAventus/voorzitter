@@ -12,22 +12,27 @@ module.exports = {
     async execute(interaction) {
         if(!interaction.isButton()) return;
 
-        const splittedArray = interaction.customId.split('-');
-        if (splittedArray[0] !== 'Poll') return;
-
+        const splitInteractionId = interaction.customId.split('-');
+        if (splitInteractionId[0] !== 'Poll') return;
+        
         if (votedMembers.has(`${interaction.user.id}-${interaction.message.id}`))
-            return interaction.reply({content:'You already voted', ephemeral: true});
+        return interaction.reply({content:'You already voted', ephemeral: true});
+        
+        const pollEmbed = interaction.message.embeds[0];
+
+        const durationField = pollEmbed.fields[2];
+        const endTime = durationField.value.slice(3, -3);
+        if(Math.floor(Date.now() / 1000) >= endTime)
+        return interaction.reply({content:'This poll has ended.', ephemeral: true})
 
         votedMembers.add(`${interaction.user.id}-${interaction.message.id}`);
-
-        const pollEmbed = interaction.message.embeds[0];
 
         const yesField = pollEmbed.fields[0];
         const noField = pollEmbed.fields[1];
 
         const voteCountedReply = 'Vote Counted!';
 
-        switch(splittedArray[1]) {
+        switch(splitInteractionId[1]) {
             case 'Yes' :
                 const newYesCount = parseInt(yesField.value) + 1;
                 yesField.value = newYesCount;

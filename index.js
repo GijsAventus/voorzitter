@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const {REST} = require('@discordjs/rest');
-const { isContextMenuApplicationCommandInteraction } = require('discord-api-types/utils/v9')
+const { isContextMenuApplicationCommandInteraction } = require('discord-api-types/utils/v9');
 const { Routes } = require('discord-api-types/v9');
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 
