@@ -10,7 +10,7 @@ const { Client, GatewayIntentBits, Collection } = require('discord.js');
 
 const pollButtonsInteraction = require('./events/buttons/pollbuttons.js');
 
-
+// intents, dit is welke informatie discord stuurt naar de app. zo krijg je alleen wat je nodig hebt
 const client = new Client({
     intents:[
         GatewayIntentBits.Guilds,
@@ -21,6 +21,7 @@ const client = new Client({
 
 console.log('Updating slash commands...');
 
+// registreer een nieuw slashcommand voor elk .js bestand in de commands directory
 const commands = [];
 client.commands = new Collection();
 
@@ -47,6 +48,7 @@ client.on('ready', ()=> {
     }
 });
 
+// triggert wanneer een nieuwe interactie gemaakt wordt. dit kan een commando zijn of een klik op een van de knoppen die de bot heeft gemaakt
 client.on('interactionCreate', async interaction => {
     pollButtonsInteraction.execute(interaction);
     if(!interaction.isCommand()) return;
