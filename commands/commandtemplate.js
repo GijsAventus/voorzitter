@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName('command template')
+    .setName('commandtemplate')
     .setDescription('command template')
     ,
     async execute(interaction)
